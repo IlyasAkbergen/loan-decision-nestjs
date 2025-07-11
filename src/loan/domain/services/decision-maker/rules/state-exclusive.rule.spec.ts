@@ -1,0 +1,118 @@
+import { StateExclusiveRule } from './state-exclusive.rule';
+import { LoanDecision } from 'src/loan/domain/aggregate/loan-decision.aggregate';
+import { Client } from 'src/client/domain/entities/client.entity';
+import { FullName } from 'src/client/domain/value-objects/full-name.value-object';
+import { Age } from 'src/client/domain/value-objects/age.value-object';
+import { CreditScore } from 'src/client/domain/value-objects/credit-score.value-object';
+import { MonthlyIncome } from 'src/client/domain/value-objects/monthly-income.value-object';
+import { USState } from 'src/client/domain/enums/enums';
+import { Product } from 'src/product/domain/entities/product.entity';
+import { ProductCode } from 'src/product/domain/enums/product-code.enum';
+import { Decision, RuleCode } from 'src/loan/domain/enums/enums';
+import { InterestRate } from 'src/product/domain/value-objects/interest-rate.value-object';
+import { v4 } from 'uuid';
+
+describe('StateExclusiveRule', () => {
+    let rule: StateExclusiveRule;
+    let product: Product;
+
+    beforeEach(() => {
+        rule = new StateExclusiveRule();
+        product = new Product(
+            '1',
+            'Test Product',
+            ProductCode.PERSONAL_LOAN,
+            { months: 12 },
+            new InterestRate(5),
+            10000,
+        );
+    });
+
+    describe('apply', () => {
+        it('should not change decision for client from CA', () => {
+            const client = new Client(
+                v4(),
+                new FullName('John', 'Doe'),
+                new Age(30),
+                new CreditScore(700),
+                new MonthlyIncome(2000),
+                USState.CA
+            );
+            const decision = new LoanDecision(client, product, null, Decision.APPROVED);
+
+            rule.apply(decision);
+
+            expect(decision.getDecision()).toBe(Decision.APPROVED);
+        });
+
+        it('should not change decision for client from NY', () => {
+            const client = new Client(
+                v4(),
+                new FullName('John', 'Doe'),
+                new Age(30),
+                new CreditScore(700),
+                new MonthlyIncome(2000),
+                USState.NY
+            );
+            const decision = new LoanDecision(client, product, null, Decision.APPROVED);
+
+            rule.apply(decision);
+
+            expect(decision.getDecision()).toBe(Decision.APPROVED);
+        });
+
+        it('should not change decision for client from NV', () => {
+            const client = new Client(
+                v4(),
+                new FullName('John', 'Doe'),
+                new Age(30),
+                new CreditScore(700),
+                new MonthlyIncome(2000),
+                USState.NV
+            );
+            const decision = new LoanDecision(client, product, null, Decision.APPROVED);
+
+            rule.apply(decision);
+
+            expect(decision.getDecision()).toBe(Decision.APPROVED);
+        });
+
+        it('should deny loan for client from TX (not allowed state)', () => {
+            const client = new Client(
+                v4(),
+                new FullName('John', 'Doe'),
+                new Age(30),
+                new CreditScore(700),
+                new MonthlyIncome(2000),
+                USState.TX
+            );
+            const decision = new LoanDecision(client, product, null, Decision.APPROVED);
+
+            rule.apply(decision);
+
+            expect(decision.getDecision()).toBe(Decision.DENIED);
+        });
+
+        it('should deny loan for client from FL (not allowed state)', () => {
+            const client = new Client(
+                v4(),
+                new FullName('John', 'Doe'),
+                new Age(30),
+                new CreditScore(700),
+                new MonthlyIncome(2000),
+                USState.FL
+            );
+            const decision = new LoanDecision(client, product, null, Decision.APPROVED);
+
+            rule.apply(decision);
+
+            expect(decision.getDecision()).toBe(Decision.DENIED);
+        });
+    });
+
+    describe('getCode', () => {
+        it('should return STATE_EXCLUSIVE rule code', () => {
+            expect(rule.getCode()).toBe(RuleCode.STATE_EXCLUSIVE);
+        });
+    });
+});
