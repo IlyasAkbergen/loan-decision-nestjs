@@ -1,19 +1,24 @@
+import { Inject, Injectable } from "@nestjs/common";
 import { RuleCode } from "src/loan/domain/enums/enums";
 import { RulesRepository } from "src/loan/domain/repositories/rule.repository";
 import { RuleInterface } from "src/loan/domain/services/decision-maker/rule-interface";
 
+@Injectable()
 export class RuleRegistry implements RulesRepository {
-    private rules: Map<string, RuleInterface>;
+    private rules: Map<RuleCode, RuleInterface>;
 
-    constructor() {
-        this.rules = new Map<string, RuleInterface>();
+    constructor(
+        @Inject('RULES') rules: RuleInterface[],
+    ) {
+        this.rules = new Map(
+            rules.map(rule => [rule.getCode(), rule])
+        );
     }
 
-    registerRule(rule: RuleInterface): void {
-        this.rules.set(rule.getCode(), rule);
-    }
-
-    findByCodes(codes: RuleCode[]): RuleInterface[] {
-        return codes.map(code => this.rules.get(code)).filter(rule => rule !== undefined) as RuleInterface[];
+    findByCodes(codes: RuleCode[]): RuleInterface[]
+    {
+        return codes
+            .map(code => this.rules.get(code))
+            .filter((rule): rule is RuleInterface => rule !== undefined);
     }
 }

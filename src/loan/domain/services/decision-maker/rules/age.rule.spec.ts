@@ -9,7 +9,7 @@ import { Decision, RuleCode } from "src/loan/domain/enums/enums";
 import { ProductCode } from "src/product/domain/enums/product-code.enum";
 import { InterestRate } from "src/product/domain/value-objects/interest-rate.value-object";
 import { CreditScore } from "src/client/domain/value-objects/credit-score.value-object";
-import { MonthlyIncome } from "src/client/domain/value-objects/monthly-income.value-object";
+import { Income } from "src/client/domain/value-objects/income.value-object";
 import { USState } from "src/client/domain/enums/enums";
 
 describe('AgeRule', () => {
@@ -33,9 +33,9 @@ describe('AgeRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(17),
+                new Date(new Date().getFullYear() - 17, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(3000),
+                new Income(3000),
                 USState.CA,
             );
             const decision = new LoanDecision(client, product, null, Decision.APPROVED);
@@ -49,9 +49,9 @@ describe('AgeRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(61),
+                new Date(new Date().getFullYear() - 61, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(3000),
+                new Income(3000),
                 USState.CA
             );
             const decision = new LoanDecision(client, product, null, Decision.APPROVED);
@@ -65,9 +65,9 @@ describe('AgeRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(18),
+                new Date(new Date().getFullYear() - 18, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(3000),
+                new Income(3000),
                 USState.CA
             );
             const decision = new LoanDecision(client, product, null, Decision.APPROVED);
@@ -81,9 +81,9 @@ describe('AgeRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(60),
+                new Date(new Date().getFullYear() - 60, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(3000),
+                new Income(3000),
                 USState.CA
             );
             const decision = new LoanDecision(client, product, null, Decision.APPROVED);
@@ -97,9 +97,9 @@ describe('AgeRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(30),
+                new Date(new Date().getFullYear() - 30, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(3000),
+                new Income(3000),
                 USState.CA
             );
             const decision = new LoanDecision(client, product, null, Decision.APPROVED);

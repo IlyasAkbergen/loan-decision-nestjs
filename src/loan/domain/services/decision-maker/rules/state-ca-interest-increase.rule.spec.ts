@@ -5,7 +5,7 @@ import { Client } from 'src/client/domain/entities/client.entity';
 import { FullName } from 'src/client/domain/value-objects/full-name.value-object';
 import { Age } from 'src/client/domain/value-objects/age.value-object';
 import { CreditScore } from 'src/client/domain/value-objects/credit-score.value-object';
-import { MonthlyIncome } from 'src/client/domain/value-objects/monthly-income.value-object';
+import { Income } from 'src/client/domain/value-objects/income.value-object';
 import { USState } from 'src/client/domain/enums/enums';
 import { Product } from 'src/product/domain/entities/product.entity';
 import { ProductCode } from 'src/product/domain/enums/product-code.enum';
@@ -35,9 +35,9 @@ describe('StateCaInterestIncreaseRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(30),
+                new Date(new Date().getFullYear() - 30, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(2000),
+                new Income(2000),
                 USState.NY
             );
             const loanConditions = new LoanConditions(
@@ -57,9 +57,9 @@ describe('StateCaInterestIncreaseRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(30),
+                new Date(new Date().getFullYear() - 30, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(2000),
+                new Income(2000),
                 USState.NV
             );
             const loanConditions = new LoanConditions(
@@ -79,9 +79,9 @@ describe('StateCaInterestIncreaseRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(30),
+                new Date(new Date().getFullYear() - 30, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(2000),
+                new Income(2000),
                 USState.CA
             );
             const loanConditions = new LoanConditions(
@@ -101,9 +101,9 @@ describe('StateCaInterestIncreaseRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(30),
+                new Date(new Date().getFullYear() - 30, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(2000),
+                new Income(2000),
                 USState.CA
             );
             const loanConditions = new LoanConditions(
@@ -123,9 +123,9 @@ describe('StateCaInterestIncreaseRule', () => {
             const client = new Client(
                 v4(),
                 new FullName('John', 'Doe'),
-                new Age(30),
+                new Date(new Date().getFullYear() - 30, 0, 1),
                 new CreditScore(700),
-                new MonthlyIncome(2000),
+                new Income(2000),
                 USState.CA
             );
             const decision = new LoanDecision(client, product, null, Decision.APPROVED);

@@ -11,7 +11,7 @@ import { Client } from 'src/client/domain/entities/client.entity';
 import { FullName } from 'src/client/domain/value-objects/full-name.value-object';
 import { Age } from 'src/client/domain/value-objects/age.value-object';
 import { CreditScore } from 'src/client/domain/value-objects/credit-score.value-object';
-import { MonthlyIncome } from 'src/client/domain/value-objects/monthly-income.value-object';
+import { Income } from 'src/client/domain/value-objects/income.value-object';
 import { USState } from 'src/client/domain/enums/enums';
 import { InterestRate } from 'src/product/domain/value-objects/interest-rate.value-object';
 
@@ -23,7 +23,7 @@ describe('DecisionMaker', () => {
     let client: Client;
 
     beforeEach(() => {
-        rulesRepository = new RuleRegistry();
+        rulesRepository = new RuleRegistry([]);
         productRulesProvider = new ProductRulesProvider(rulesRepository);
         decisionMaker = new DecisionMaker(
             productRulesProvider,
@@ -39,9 +39,9 @@ describe('DecisionMaker', () => {
         client = new Client(
             v4(),
             new FullName('Iliyas', 'Akbergen'),
-            new Age(27),
+            new Date(new Date().getFullYear() - 30, 0, 1),
             new CreditScore(700),
-            new MonthlyIncome(3000),
+            new Income(3000),
             USState.CA,
         );
     });
