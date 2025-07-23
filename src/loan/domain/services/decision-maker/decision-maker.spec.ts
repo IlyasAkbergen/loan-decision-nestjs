@@ -23,7 +23,7 @@ describe('DecisionMaker', () => {
     let client: Client;
 
     beforeEach(() => {
-        rulesRepository = new RuleRegistry();
+        rulesRepository = new RuleRegistry([]);
         productRulesProvider = new ProductRulesProvider(rulesRepository);
         decisionMaker = new DecisionMaker(
             productRulesProvider,

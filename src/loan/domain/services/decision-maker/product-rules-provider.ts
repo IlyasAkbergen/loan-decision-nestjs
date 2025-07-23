@@ -1,8 +1,6 @@
 import { RuleRegistry } from "../../../infrastructure/config/decision-maker/rule.registry";
-import { Product } from "../../../../product/domain/entities/product.entity";
 import { ProductCode } from "../../../../product/domain/enums/product-code.enum";
 import { RuleInterface } from "./rule-interface";
-import { match } from "assert";
 import { RuleCode } from "../../enums/enums";
 
 export class ProductRulesProvider {

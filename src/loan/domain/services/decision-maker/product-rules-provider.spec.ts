@@ -8,7 +8,7 @@ describe('ProductRulesProvider', () => {
     let productRulesRepository: RuleRegistry;
 
     beforeEach(() => {
-        productRulesRepository = new RuleRegistry();
+        productRulesRepository = new RuleRegistry([]);
         productRulesProvider = new ProductRulesProvider(productRulesRepository);
     });
 
