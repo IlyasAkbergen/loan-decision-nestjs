@@ -43,7 +43,7 @@ describe('ProductController (e2e)', () => {
     }
   });
 
-  describe('/product (POST)', () => {
+  describe('/products (POST)', () => {
     it('should create a new product', async () => {
       const createProductDto: CreateProductDto = {
         name: 'Personal Loan',
@@ -56,7 +56,7 @@ describe('ProductController (e2e)', () => {
       mockRepository.save.mockResolvedValue(undefined);
 
       const response = await request(app.getHttpServer())
-        .post('/product')
+        .post('/products')
         .send(createProductDto)
         .expect(201);
 
@@ -77,7 +77,7 @@ describe('ProductController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/product')
+        .post('/products')
         .send(invalidProductDto)
         .expect(400);
     });
@@ -89,13 +89,13 @@ describe('ProductController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/product')
+        .post('/products')
         .send(incompleteProductDto)
         .expect(400);
     });
   });
 
-  describe('/product (GET)', () => {
+  describe('/products (GET)', () => {
     it('should return all products', async () => {
       const mockProducts = [
         {
@@ -119,7 +119,7 @@ describe('ProductController (e2e)', () => {
       mockRepository.findAll.mockResolvedValue(mockProducts);
 
       const response = await request(app.getHttpServer())
-        .get('/product')
+        .get('/products')
         .expect(200);
 
       expect(response.body).toHaveLength(2);
@@ -130,14 +130,14 @@ describe('ProductController (e2e)', () => {
       mockRepository.findAll.mockResolvedValue([]);
 
       const response = await request(app.getHttpServer())
-        .get('/product')
+        .get('/products')
         .expect(200);
 
       expect(response.body).toEqual([]);
     });
   });
 
-  describe('/product/:id (GET)', () => {
+  describe('/products/:id (GET)', () => {
     const productId = '123e4567-e89b-12d3-a456-426614174000';
     const mockProduct = {
       id: productId,
@@ -152,7 +152,7 @@ describe('ProductController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(mockProduct);
 
       const response = await request(app.getHttpServer())
-        .get(`/product/${productId}`)
+        .get(`/products/${productId}`)
         .expect(200);
 
       expect(response.body.id).toBe(productId);
@@ -165,12 +165,12 @@ describe('ProductController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(null);
 
       await request(app.getHttpServer())
-        .get(`/product/${nonExistentId}`)
+        .get(`/products/${nonExistentId}`)
         .expect(404);
     });
   });
 
-  describe('/product/:id (PATCH)', () => {
+  describe('/products/:id (PATCH)', () => {
     const productId = '123e4567-e89b-12d3-a456-426614174000';
     const existingProduct = {
       id: productId,
@@ -191,7 +191,7 @@ describe('ProductController (e2e)', () => {
       mockRepository.save.mockResolvedValue(undefined);
 
       const response = await request(app.getHttpServer())
-        .patch(`/product/${productId}`)
+        .patch(`/products/${productId}`)
         .send(updateProductDto)
         .expect(200);
 
@@ -210,7 +210,7 @@ describe('ProductController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(null);
 
       await request(app.getHttpServer())
-        .patch(`/product/${nonExistentId}`)
+        .patch(`/products/${nonExistentId}`)
         .send(updateProductDto)
         .expect(404);
     });
@@ -224,13 +224,13 @@ describe('ProductController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(existingProduct);
 
       await request(app.getHttpServer())
-        .patch(`/product/${productId}`)
+        .patch(`/products/${productId}`)
         .send(invalidUpdateDto)
         .expect(400);
     });
   });
 
-  describe('/product/:id (DELETE)', () => {
+  describe('/products/:id (DELETE)', () => {
     const productId = '123e4567-e89b-12d3-a456-426614174000';
     const existingProduct = {
       id: productId,
@@ -246,7 +246,7 @@ describe('ProductController (e2e)', () => {
       mockRepository.delete.mockResolvedValue(undefined);
 
       await request(app.getHttpServer())
-        .delete(`/product/${productId}`)
+        .delete(`/products/${productId}`)
         .expect(200);
 
       expect(mockRepository.findById).toHaveBeenCalledWith(productId);
@@ -258,7 +258,7 @@ describe('ProductController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(null);
 
       await request(app.getHttpServer())
-        .delete(`/product/${nonExistentId}`)
+        .delete(`/products/${nonExistentId}`)
         .expect(404);
     });
   });

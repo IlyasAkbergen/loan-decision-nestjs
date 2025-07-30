@@ -43,7 +43,7 @@ describe('ClientController (e2e)', () => {
     }
   });
 
-  describe('/client (POST)', () => {
+  describe('/clients (POST)', () => {
     it('should create a new client', async () => {
       const createClientDto: CreateClientDto = {
         firstName: 'John',
@@ -57,7 +57,7 @@ describe('ClientController (e2e)', () => {
       mockRepository.save.mockResolvedValue(undefined);
 
       const response = await request(app.getHttpServer())
-        .post('/client')
+        .post('/clients')
         .send(createClientDto)
         .expect(201);
 
@@ -81,7 +81,7 @@ describe('ClientController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/client')
+        .post('/clients')
         .send(invalidClientDto)
         .expect(400);
     });
@@ -93,13 +93,13 @@ describe('ClientController (e2e)', () => {
       };
 
       await request(app.getHttpServer())
-        .post('/client')
+        .post('/clients')
         .send(incompleteClientDto)
         .expect(400);
     });
   });
 
-  describe('/client (GET)', () => {
+  describe('/clients (GET)', () => {
     it('should return all clients', async () => {
       const mockClients = [
         {
@@ -123,7 +123,7 @@ describe('ClientController (e2e)', () => {
       mockRepository.findAll.mockResolvedValue(mockClients);
 
       const response = await request(app.getHttpServer())
-        .get('/client')
+        .get('/clients')
         .expect(200);
 
       expect(response.body).toHaveLength(2);
@@ -134,14 +134,14 @@ describe('ClientController (e2e)', () => {
       mockRepository.findAll.mockResolvedValue([]);
 
       const response = await request(app.getHttpServer())
-        .get('/client')
+        .get('/clients')
         .expect(200);
 
       expect(response.body).toEqual([]);
     });
   });
 
-  describe('/client/:id (GET)', () => {
+  describe('/clients/:id (GET)', () => {
     const clientId = '123e4567-e89b-12d3-a456-426614174000';
     const mockClient = {
       id: clientId,
@@ -156,7 +156,7 @@ describe('ClientController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(mockClient);
 
       const response = await request(app.getHttpServer())
-        .get(`/client/${clientId}`)
+        .get(`/clients/${clientId}`)
         .expect(200);
 
       expect(response.body.id).toBe(clientId);
@@ -169,12 +169,12 @@ describe('ClientController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(null);
 
       await request(app.getHttpServer())
-        .get(`/client/${nonExistentId}`)
+        .get(`/clients/${nonExistentId}`)
         .expect(404);
     });
   });
 
-  describe('/client/:id (PATCH)', () => {
+  describe('/clients/:id (PATCH)', () => {
     const clientId = '123e4567-e89b-12d3-a456-426614174000';
     const existingClient = {
       id: clientId,
@@ -195,7 +195,7 @@ describe('ClientController (e2e)', () => {
       mockRepository.save.mockResolvedValue(undefined);
 
       const response = await request(app.getHttpServer())
-        .patch(`/client/${clientId}`)
+        .patch(`/clients/${clientId}`)
         .send(updateClientDto)
         .expect(200);
 
@@ -215,7 +215,7 @@ describe('ClientController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(null);
 
       await request(app.getHttpServer())
-        .patch(`/client/${nonExistentId}`)
+        .patch(`/clients/${nonExistentId}`)
         .send(updateClientDto)
         .expect(404);
     });
@@ -229,13 +229,13 @@ describe('ClientController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(existingClient);
 
       await request(app.getHttpServer())
-        .patch(`/client/${clientId}`)
+        .patch(`/clients/${clientId}`)
         .send(invalidUpdateDto)
         .expect(400);
     });
   });
 
-  describe('/client/:id (DELETE)', () => {
+  describe('/clients/:id (DELETE)', () => {
     const clientId = '123e4567-e89b-12d3-a456-426614174000';
     const existingClient = {
       id: clientId,
@@ -251,7 +251,7 @@ describe('ClientController (e2e)', () => {
       mockRepository.delete.mockResolvedValue(undefined);
 
       await request(app.getHttpServer())
-        .delete(`/client/${clientId}`)
+        .delete(`/clients/${clientId}`)
         .expect(200);
 
       expect(mockRepository.findById).toHaveBeenCalledWith(clientId);
@@ -263,7 +263,7 @@ describe('ClientController (e2e)', () => {
       mockRepository.findById.mockResolvedValue(null);
 
       await request(app.getHttpServer())
-        .delete(`/client/${nonExistentId}`)
+        .delete(`/clients/${nonExistentId}`)
         .expect(404);
     });
   });
