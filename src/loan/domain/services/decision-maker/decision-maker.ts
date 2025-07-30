@@ -7,8 +7,8 @@ import { Decision } from "../../enums/enums";
 export class DecisionMaker {
     constructor(private readonly productRulesProvider: ProductRulesProvider) {}
 
-    public decide(product: Product, client: Client): LoanDecision {
-        const rules = this.productRulesProvider.getRules(product.code);
+    public async decide(product: Product, client: Client): Promise<LoanDecision> {
+        const rules = await this.productRulesProvider.getRules(product.code);
         const decision = new LoanDecision(client, product, null, Decision.APPROVED);
 
         for (const rule of rules) {

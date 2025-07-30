@@ -15,10 +15,12 @@ export class RuleRegistry implements RulesRepository {
         );
     }
 
-    findByCodes(codes: RuleCode[]): RuleInterface[]
+    findByCodes(codes: RuleCode[]): Promise<RuleInterface[]>
     {
-        return codes
+        const rules = codes
             .map(code => this.rules.get(code))
             .filter((rule): rule is RuleInterface => rule !== undefined);
+        
+        return Promise.resolve(rules);
     }
 }

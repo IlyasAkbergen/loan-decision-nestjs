@@ -24,8 +24,8 @@ describe('RuleRegistry', () => {
         ruleRegistry = new RuleRegistry(rules);
     });
 
-    it('should find rules by codes', () => {
-        const foundRules = ruleRegistry.findByCodes([
+    it('should find rules by codes', async () => {
+        const foundRules = await ruleRegistry.findByCodes([
             RuleCode.INCOME,
             RuleCode.AGE,
         ]);

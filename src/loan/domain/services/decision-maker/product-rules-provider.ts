@@ -6,8 +6,8 @@ import { RuleCode } from "../../enums/enums";
 export class ProductRulesProvider {
     constructor(private readonly productRulesRepository: RuleRegistry) {}
 
-    public getRules(productCode: ProductCode): RuleInterface[] {
-        return this.productRulesRepository.findByCodes(this.getRuleCodes(productCode));
+    public async getRules(productCode: ProductCode): Promise<RuleInterface[]> {
+        return await this.productRulesRepository.findByCodes(this.getRuleCodes(productCode));
     }
 
     private getRuleCodes(productCode: ProductCode): RuleCode[] {

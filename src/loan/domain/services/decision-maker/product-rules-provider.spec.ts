@@ -13,15 +13,15 @@ describe('ProductRulesProvider', () => {
     });
 
     describe('getRules', () => {
-        it('should return an array of rules for a given product', () => {
+        it('should return an array of rules for a given product', async () => {
             const ruleInterfaceMock: jest.Mocked<RuleInterface> = {
                 getCode: jest.fn().mockReturnValue('mock_rule_code'),
                 apply: jest.fn(),
             };
-            jest.spyOn(productRulesRepository, 'findByCodes').mockReturnValue([
+            jest.spyOn(productRulesRepository, 'findByCodes').mockResolvedValue([
                 ruleInterfaceMock,
             ]);
-            const rules = productRulesProvider.getRules(ProductCode.PERSONAL_LOAN);
+            const rules = await productRulesProvider.getRules(ProductCode.PERSONAL_LOAN);
             expect(rules).toBeInstanceOf(Array);
             expect(rules.length).toBe(1);
         });

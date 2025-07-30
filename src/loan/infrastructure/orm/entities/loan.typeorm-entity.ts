@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index } from 'typeorm';
 
 @Entity('loans')
 export class LoanTypeOrmEntity {
@@ -6,9 +6,11 @@ export class LoanTypeOrmEntity {
     id: string;
 
     @Column('uuid', { name: 'client_id' })
+    @Index('IDX_LOAN_CLIENT_ID')
     clientId: string;
 
     @Column('uuid', { name: 'product_id' })
+    @Index('IDX_LOAN_PRODUCT_ID')
     productId: string;
 
     @Column('decimal', { precision: 10, scale: 2 })
